@@ -21,12 +21,15 @@
 +------------------------------------------------
 
 
-POST_NAME = "ShopBot (arcs)(inch) (*.sbp)"
+POST_NAME = "ShopBot Eric (arcs)(inch) (*.sbp)"
 
 FILE_EXTENSION = "sbp"
 
 UNITS = "INCHES"
 
+
+
+DIRECT_OUTPUT = "DIRECT to ShopBot|ShopBot_run.ini"
 +------------------------------------------------
 +    Line terminating characters                 
 +------------------------------------------------
@@ -53,6 +56,7 @@ var SPINDLE_SPEED = [S|A|S|1.0]
 
 var CUT_RATE    = [FC|A||1.2|0.0166]
 var PLUNGE_RATE = [FP|A||1.2|0.0166]
+var SPINDLE_SPEED = [S|A||1.0]
 
 +------------------------------------------------
 + Tool position in x,y and z
@@ -96,8 +100,11 @@ begin HEADER
  "C#,90				 	'Lookup offset values"
   "'"
  "'Turning router ON"
- "SO,1,1"
+ "IF [S] < 100 Then SO,1,0"
+ "IF [S] >= 100 Then SO,1,1"
+ ""
  "PAUSE 2"
+
 
 "'"
 + "'[FILE_NOTES]"
@@ -171,6 +178,11 @@ begin NEW_SEGMENT
 "'----------------------------------------------------------------"
 + "'[TOOLPATH_NOTES]"
 "'----------------------------------------------------------------"
+ "'Turning router ON"
+ "IF [S] < 100 Then SO,1,0"
+ "IF [S] >= 100 Then SO,1,1"
+ ""
+ "PAUSE 2"
 "MS,[FC],[FP]"
 "J3,[X],[Y],[ZH]"
 
